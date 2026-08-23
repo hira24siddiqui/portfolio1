@@ -1,0 +1,116 @@
+---
+interface Props {
+  love: string;
+  goodAt: string;
+  worldNeeds: string;
+  paidFor: string;
+  centerLabel?: string;
+}
+
+const {
+  love,
+  goodAt,
+  worldNeeds,
+  paidFor,
+  centerLabel = 'IKIGAI',
+} = Astro.props;
+---
+
+<div class="ikigai">
+  <svg viewBox="0 0 600 600" role="img" aria-labelledby="ikigaiTitle">
+    <title id="ikigaiTitle">Ikigai diagram: what I love, what I'm good at, what the world needs, what I can be paid for</title>
+
+    <circle class="circle love" cx="300" cy="190" r="160" />
+    <circle class="circle world" cx="410" cy="300" r="160" />
+    <circle class="circle paid" cx="300" cy="410" r="160" />
+    <circle class="circle good" cx="190" cy="300" r="160" />
+
+    <text class="quad-label" x="300" y="90" text-anchor="middle">What I love</text>
+    <text class="quad-label" x="520" y="300" text-anchor="middle">What the world needs</text>
+    <text class="quad-label" x="300" y="530" text-anchor="middle">What I can be paid for</text>
+    <text class="quad-label" x="80" y="300" text-anchor="middle">What I'm good at</text>
+
+    <text class="overlap-label" x="355" y="245" text-anchor="middle">Mission</text>
+    <text class="overlap-label" x="355" y="360" text-anchor="middle">Vocation</text>
+    <text class="overlap-label" x="245" y="360" text-anchor="middle">Profession</text>
+    <text class="overlap-label" x="245" y="245" text-anchor="middle">Passion</text>
+
+    <text class="center-label" x="300" y="300" text-anchor="middle">{centerLabel}</text>
+  </svg>
+
+  <div class="quad-copy">
+    <div><span class="tag">What I love</span><p>{love}</p></div>
+    <div><span class="tag">What I'm good at</span><p>{goodAt}</p></div>
+    <div><span class="tag">What the world needs</span><p>{worldNeeds}</p></div>
+    <div><span class="tag">What I can be paid for</span><p>{paidFor}</p></div>
+  </div>
+</div>
+
+<style>
+  .ikigai {
+    display: grid;
+    grid-template-columns: minmax(280px, 440px) 1fr;
+    gap: 32px;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .circle {
+    fill-opacity: 0.14;
+    stroke-width: 1.5;
+    mix-blend-mode: multiply;
+  }
+
+  .love { fill: #1b4b91; stroke: #1b4b91; }
+  .world { fill: #0b2545; stroke: #0b2545; }
+  .paid { fill: #5b7ca0; stroke: #5b7ca0; }
+  .good { fill: #8993a4; stroke: #8993a4; }
+
+  .quad-label {
+    fill: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: 15px;
+  }
+
+  .overlap-label {
+    fill: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .center-label {
+    fill: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.06em;
+  }
+
+  .quad-copy {
+    display: grid;
+    gap: 16px;
+  }
+
+  .quad-copy .tag {
+    margin-bottom: 6px;
+  }
+
+  .quad-copy p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 780px) {
+    .ikigai {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+interface Entry {
+  date: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  entries: Entry[];
+}
+
+const { id, eyebrow, title, entries } = Astro.props;
+---
+
+<section id={id}>
+  <div class="container">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h2>{title}</h2>
+    <ol class="timeline">
+      {entries.map((entry) => (
+        <li>
+          <span class="date">{entry.date}</span>
+          <h3>{entry.title}</h3>
+          <p>{entry.description}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 32px 0 0;
+    padding: 0 0 0 24px;
+    border-left: 2px solid var(--border);
+  }
+
+  .timeline li {
+    position: relative;
+    padding-bottom: 32px;
+  }
+
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--royal);
+    box-shadow: 0 0 0 3px var(--royal-soft);
+  }
+
+  .date {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--royal);
+  }
+
+  .timeline h3 {
+    margin: 4px 0 4px;
+    font-size: 1rem;
+  }
+
+  .timeline p {
+    color: var(--text-dim);
+    margin: 0;
+    max-width: 640px;
+  }
+</style>

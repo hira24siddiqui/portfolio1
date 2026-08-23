@@ -1,0 +1,62 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  tags: string[];
+  href: string;
+}
+
+const { title, summary, tags, href } = Astro.props;
+---
+
+<a class="case-card" href={href}>
+  <h4>{title}</h4>
+  <p>{summary}</p>
+  <div class="tags">
+    {tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</a>
+
+<style>
+  .case-card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    border-radius: var(--radius);
+    padding: 18px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .case-card:hover {
+    border-color: var(--border);
+    border-top-color: var(--royal);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -16px rgba(11, 37, 69, 0.35);
+    text-decoration: none;
+  }
+
+  .case-card h4 {
+    font-size: 0.98rem;
+    margin: 0 0 6px;
+    color: var(--text);
+  }
+
+  .case-card p {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    margin: 0 0 12px;
+  }
+
+  .tags {
+    margin: 0;
+  }
+
+  .tag {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    margin: 0 6px 6px 0;
+  }
+</style>

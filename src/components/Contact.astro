@@ -1,0 +1,91 @@
+---
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  id?: string;
+  email: string;
+  links: Link[];
+}
+
+const { id, email, links } = Astro.props;
+---
+
+<section id={id} class="cta-section">
+  <div class="container">
+    <div class="cta-panel reveal">
+      <span class="eyebrow">Contact</span>
+      <h2>Let's talk</h2>
+      <p class="lead">
+        Have a project in mind, or just want to connect? Reach out at
+        <a href={`mailto:${email}`}>{email}</a>.
+      </p>
+      <div class="actions">
+        <a class="btn" href={`mailto:${email}`}>Email me</a>
+        {links.map((link) => (
+          <a class="btn btn-outline-on-royal" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    border-bottom: none;
+  }
+
+  .cta-panel {
+    background: var(--royal);
+    border-radius: var(--radius);
+    padding: 56px;
+    text-align: center;
+  }
+
+  .cta-panel .eyebrow {
+    color: rgba(245, 247, 255, 0.75);
+  }
+
+  .cta-panel h2 {
+    color: var(--on-royal);
+  }
+
+  .lead {
+    color: rgba(245, 247, 255, 0.85);
+    font-size: 1.05rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .lead a {
+    color: var(--on-royal);
+    text-decoration: underline;
+  }
+
+  .actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-outline-on-royal {
+    background: transparent;
+    border: 1px solid rgba(245, 247, 255, 0.5);
+    color: var(--on-royal);
+  }
+
+  .btn-outline-on-royal:hover {
+    background: rgba(245, 247, 255, 0.12);
+    border-color: var(--on-royal);
+  }
+
+  @media (max-width: 640px) {
+    .cta-panel {
+      padding: 40px 24px;
+    }
+  }
+</style>

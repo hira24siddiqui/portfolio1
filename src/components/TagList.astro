@@ -1,0 +1,26 @@
+---
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  tags: string[];
+}
+
+const { id, eyebrow, title, tags } = Astro.props;
+---
+
+<section id={id}>
+  <div class="container">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h2>{title}</h2>
+    <div class="tags">
+      {tags.map((tag) => <span class="tag">{tag}</span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tags {
+    margin-top: 16px;
+  }
+</style>

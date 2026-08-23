@@ -1,0 +1,53 @@
+---
+interface Group {
+  category: string;
+  skills: string[];
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  groups: Group[];
+}
+
+const { id, eyebrow, title, groups } = Astro.props;
+---
+
+<section id={id}>
+  <div class="container">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h2>{title}</h2>
+    <div class="groups">
+      {groups.map((group) => (
+        <div class="group">
+          <h3>{group.category}</h3>
+          <div>
+            {group.skills.map((skill) => <span class="tag">{skill}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .group h3 {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .groups {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+---
+
+<script>
+  // Fade/slide in sections and cards as they scroll into view. Anything
+  // that already opted in with class="reveal" gets the effect; we also
+  // auto-tag top-level sections and card grids so new content picks it
+  // up without needing to remember the class everywhere.
+  const autoTargets = document.querySelectorAll(
+    'main > section:not(.reveal), .case-card, .card'
+  );
+  autoTargets.forEach((el) => el.classList.add('reveal'));
+
+  const revealEls = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+    );
+
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('in-view'));
+  }
+</script>

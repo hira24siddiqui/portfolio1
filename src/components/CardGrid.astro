@@ -1,0 +1,57 @@
+---
+interface Item {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  items: Item[];
+  columns?: number;
+}
+
+const { id, eyebrow, title, items, columns = 2 } = Astro.props;
+---
+
+<section id={id}>
+  <div class="container">
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h2>{title}</h2>
+    <div class="grid" style={`--cols: ${columns}`}>
+      {items.map((item) => (
+        <div class="card">
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  .card p {
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

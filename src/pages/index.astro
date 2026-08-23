@@ -1,0 +1,103 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import TextBlock from '../components/TextBlock.astro';
+import Gallery from '../components/Gallery.astro';
+import CardGrid from '../components/CardGrid.astro';
+import Timeline from '../components/Timeline.astro';
+import ProjectCategory from '../components/ProjectCategory.astro';
+import SkillGroup from '../components/SkillGroup.astro';
+import IkigaiDiagram from '../components/IkigaiDiagram.astro';
+import TagList from '../components/TagList.astro';
+import Contact from '../components/Contact.astro';
+import StatStrip from '../components/StatStrip.astro';
+
+import { site } from '../data/site';
+import { achievements } from '../data/achievements';
+import { certifications } from '../data/certifications';
+import { timeline } from '../data/timeline';
+import { skillGroups } from '../data/skills';
+import { aspirations } from '../data/aspirations';
+import { hobbies } from '../data/hobbies';
+import { projectCategories } from '../data/projectCategories';
+import { stats } from '../data/stats';
+
+const allCaseStudies = await getCollection('case-studies', ({ data }) => !data.draft);
+
+const categoriesWithCases = projectCategories.map((cat) => ({
+  ...cat,
+  cases: allCaseStudies
+    .filter((c) => c.data.category === cat.slug)
+    .sort((a, b) => a.data.order - b.data.order)
+    .map((c) => ({
+      title: c.data.title,
+      summary: c.data.summary,
+      tags: c.data.tags,
+      slug: c.id,
+    })),
+}));
+---
+
+<BaseLayout title="Hira Siddiqui — Portfolio">
+  <Hero name={site.name} tagline={site.tagline} />
+
+  <StatStrip stats={stats} />
+
+  <TextBlock id="story" eyebrow="About" title="My Story" paragraphs={site.story} />
+
+  <section>
+    <div class="container">
+      <Gallery images={site.gallery} />
+    </div>
+  </section>
+
+  <CardGrid id="achievements" eyebrow="Highlights" title="My Achievements" items={achievements} columns={2} />
+
+  <CardGrid id="certifications" eyebrow="Credentials" title="Certifications" items={certifications} columns={2} />
+
+  <Timeline id="timeline" eyebrow="Journey" title="Career Timeline and Impact" entries={timeline} />
+
+  <section id="projects">
+    <div class="container">
+      <span class="eyebrow">Work</span>
+      <h2>My Projects</h2>
+      {categoriesWithCases.map((cat) => (
+        <ProjectCategory title={cat.title} cases={cat.cases} />
+      ))}
+    </div>
+  </section>
+
+  <SkillGroup id="skills" eyebrow="Toolkit" title="Skills" groups={skillGroups} />
+
+  <section id="aspirations">
+    <div class="container">
+      <span class="eyebrow">Why I do this</span>
+      <h2>Aspirations</h2>
+      <div class="aspirations-copy">
+        {aspirations.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <IkigaiDiagram
+        love={aspirations.ikigai.love}
+        goodAt={aspirations.ikigai.goodAt}
+        worldNeeds={aspirations.ikigai.worldNeeds}
+        paidFor={aspirations.ikigai.paidFor}
+      />
+    </div>
+  </section>
+
+  <TagList id="hobbies" eyebrow="Outside work" title="Hobbies" tags={hobbies} />
+
+  <Contact id="contact" email={site.email} links={site.socialLinks} />
+</BaseLayout>
+
+<style>
+  .aspirations-copy {
+    max-width: 720px;
+    color: var(--text-dim);
+  }
+
+  .aspirations-copy p {
+    margin: 0 0 1em;
+  }
+</style>
